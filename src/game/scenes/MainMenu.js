@@ -2,7 +2,7 @@ import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 
 export class MainMenu extends Scene {
-    logoTween;
+    // logoTween;
 
     constructor() {
         super('MainMenu');
@@ -29,10 +29,10 @@ export class MainMenu extends Scene {
     }
 
     changeScene() {
-        if (this.logoTween) {
-            this.logoTween.stop();
-            this.logoTween = null;
-        }
+        // if (this.logoTween) {
+        //     this.logoTween.stop();
+        //     this.logoTween = null;
+        // }
 
         this.scene.start('Game');
     }
