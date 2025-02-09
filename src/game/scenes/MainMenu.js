@@ -2,7 +2,6 @@ import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
 
 export class MainMenu extends Scene {
-    // logoTween;
 
     constructor() {
         super('MainMenu');
@@ -20,7 +19,8 @@ export class MainMenu extends Scene {
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
         })
-            .setDepth(100).setOrigin(0.5).setInteractive().on('pointerdown', () => this.changeScene())
+            .setOrigin(0.5)
+            .setInteractive().on('pointerdown', () => this.changeScene())
 
 
         EventBus.emit('current-scene-ready', this);
