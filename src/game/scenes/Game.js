@@ -1,5 +1,6 @@
 import { EventBus } from '../EventBus';
 import { Scene } from 'phaser';
+import { Player } from "../objects/Player.js";
 
 export class Game extends Scene {
     constructor() {
@@ -9,8 +10,12 @@ export class Game extends Scene {
     create() {
         this.cameras.main.setBackgroundColor(0x34abeb);
 
+        this.worldSpeed = 1;
+
         // Get camera dimensions
         const { width, height } = this.cameras.main;
+
+        this.player = new Player(this, width / 2, height * .75)
 
         // Create a tileSprite that fills the screen
         this.bg1 = this.add.tileSprite(0, 0, width, height, 'clouds')
@@ -51,8 +56,10 @@ export class Game extends Scene {
     }
 
     update() {
-        this.bg1.tilePositionY -= 1;
-        this.bg2.tilePositionY -= .5;
-        this.fg1.tilePositionY -= 2;
+        this.bg1.tilePositionY -= 1 * this.worldSpeed;
+        this.bg2.tilePositionY -= .5 * this.worldSpeed;
+        this.fg1.tilePositionY -= 2 * this.worldSpeed;
+
+        this.player.update();
     }
 }
