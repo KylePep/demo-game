@@ -81,13 +81,13 @@ export class Game extends Phaser.Scene {
     }
 
     changeScene() {
-        this.scene.start('GameOver');
+        this.scene.start('GameOver', this.score);
     }
 
     update() {
-        this.bg1.tilePositionY -= 1 * this.worldSpeed;
-        this.bg2.tilePositionY -= .5 * this.worldSpeed;
-        this.fg1.tilePositionY -= 2 * this.worldSpeed;
+        this.bg1.tilePositionY -= 1.1 * this.worldSpeed;
+        this.bg2.tilePositionY -= .6 * this.worldSpeed;
+        this.fg1.tilePositionY -= 2.1 * this.worldSpeed;
 
         this.player.update();
         this.collectable.update();

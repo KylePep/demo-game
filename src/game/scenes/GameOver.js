@@ -6,22 +6,41 @@ export class GameOver extends Scene {
         super('GameOver');
     }
 
-    create() {
+    create(score) {
         this.cameras.main.setBackgroundColor(0xff0000);
+
+        const { width, height } = this.cameras.main;
 
         this.background = this.add.image(0, 0, 'background')
             .setOrigin(0, 0)
-            .setDisplaySize(this.cameras.main.width, this.cameras.main.height)
+            .setDisplaySize(width, height)
             .setAlpha(0.5);
 
-        this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'Game Over', {
+        this.add.text(width / 2, height / 4, 'Game Over', {
             fontFamily: 'Arial Black', fontSize: 64, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
         })
             .setOrigin(0.5)
             .setDepth(100)
-            .setInteractive().on('pointerdown', () => this.changeScene());
+
+        this.add.text(width / 2, height / 2, 'Restart', {
+            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
+            stroke: '#000000', strokeThickness: 8,
+            align: 'center'
+        })
+            .setOrigin(0.5)
+            .setDepth(200)
+            .setInteractive().on('pointerdown', () => this.changeScene())
+
+        this.add.text(width / 2, height * .75, `Score: ${score}`, {
+            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
+            stroke: '#000000', strokeThickness: 8,
+            align: 'center'
+        })
+            .setOrigin(0.5)
+            .setDepth(200)
+            .setInteractive().on('pointerdown', () => this.changeScene())
 
         EventBus.emit('current-scene-ready', this);
     }
