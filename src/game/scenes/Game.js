@@ -7,20 +7,35 @@ export class Game extends Scene {
     }
 
     create() {
-        this.cameras.main.setBackgroundColor(0x00ff00);
+        this.cameras.main.setBackgroundColor(0x34abeb);
 
-        this.background = this.add.image(0, 0, 'background')
+        // Get camera dimensions
+        const { width, height } = this.cameras.main;
+
+        // Create a tileSprite that fills the screen
+        this.bg1 = this.add.tileSprite(0, 0, width, height, 'clouds')
             .setOrigin(0, 0)
-            .setDisplaySize(this.cameras.main.width, this.cameras.main.height)
-            .setAlpha(0.5);
+            .setDepth(-100)
+            .setAlpha(0.75);
 
-        this.add.text(this.cameras.main.width / 2, this.cameras.main.height / 2, 'This is the game', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        }).setOrigin(0.5).setDepth(100);
 
-        this.add.text(this.cameras.main.width / 2, this.cameras.main.height * .75, 'End Game', {
+        // Create a tileSprite that fills the screen
+        this.bg2 = this.add.tileSprite(0, 0, width, height, 'clouds')
+            .setOrigin(0, 0)
+            .setAlpha(0.6);
+
+        // Create a tileSprite that fills the screen
+        this.fg1 = this.add.tileSprite(0, 0, width, height, 'clouds')
+            .setOrigin(0, 0)
+            .setAlpha(0.35)
+            .setDepth(100);
+
+        // Scale each tile to match the full screen
+        this.bg1.setTileScale(1, 1);
+        this.bg2.setTileScale(4, 4);
+        this.fg1.setTileScale(8, 8);
+
+        this.add.text(this.cameras.main.width / 2, this.cameras.main.height * .9, 'Quit', {
             fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
@@ -33,5 +48,11 @@ export class Game extends Scene {
 
     changeScene() {
         this.scene.start('GameOver');
+    }
+
+    update() {
+        this.bg1.tilePositionY -= 1;
+        this.bg2.tilePositionY -= .5;
+        this.fg1.tilePositionY -= 2;
     }
 }

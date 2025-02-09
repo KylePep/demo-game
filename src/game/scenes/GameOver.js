@@ -21,7 +21,7 @@ export class GameOver extends Scene {
         })
             .setOrigin(0.5)
             .setDepth(100)
-            .setInteractive().on('pointerdown', () => this.changeScene())
+            .setInteractive().on('pointerdown', () => this.changeScene());
 
         EventBus.emit('current-scene-ready', this);
     }
