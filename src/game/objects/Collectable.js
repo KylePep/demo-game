@@ -7,7 +7,8 @@ export class Collectable {
     this.x = x;
     this.y = y;
 
-    this.coins = [];
+    // Create a physics group for coins
+    this.coinsGroup = this.scene.physics.add.group();
 
     this.startCoinGen();
   }
@@ -20,16 +21,28 @@ export class Collectable {
       loop: true
     });
   }
+
   createCoin() {
-    // Create a new coin and add it to the coins array
+    console.log('addCoin')
+    // Create a new coin and add it to the physics group
     const coin = new Coin(this.scene, this.scene.cameras.main.width * Phaser.Math.RND.between(0, 100) / 100, this.y);
-    this.coins.push(coin);
+
+    // Add coin to the physics group (this ensures it's part of physics world)
+    this.coinsGroup.add(coin.coin);
   }
 
   update() {
-    // Loop through all coins and call their update methods
-    for (let coin of this.coins) {
-      coin.update();
-    }
+    // Loop through all coins in the physics group and update them
+    this.coinsGroup.children.iterate((coin) => {
+      if (coin) {
+        coin.y += this.scene.worldSpeed * coin.baseSpeed;
+        if (coin.y > this.scene.cameras.main.height + 32) {
+          coin.y = -32;
+          coin.x = this.scene.cameras.main.width * Phaser.Math.RND.between(0, 100) / 100;
+          this.scene.updateScore();
+          console.log('coin missed');
+        }
+      }
+    });
   }
 }

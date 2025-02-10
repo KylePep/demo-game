@@ -31,6 +31,12 @@ export class Preloader extends Scene {
         this.load.image('logo', 'logo.png');
         this.load.image('clouds', 'clouds.png');
         this.load.image('star', 'star.png');
+
+        this.load.spritesheet('player', 'playerSheet.png', {
+            frameWidth: 205,
+            frameHeight: 161,
+            endFrame: 15 - 1
+        });
     }
 
     create() {

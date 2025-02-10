@@ -10,6 +10,13 @@ import { Preloader } from './scenes/Preloader';
 const config = {
     type: Phaser.AUTO,
     pixelArt: true,
+    physics: {
+        default: 'arcade',  // Use arcade physics
+        arcade: {
+            gravity: { y: 0 },  // Optional: Set gravity, adjust as needed
+            debug: false         // Optional: Set to true if you want to see debug info
+        }
+    },
     scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER,

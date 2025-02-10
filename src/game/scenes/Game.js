@@ -4,16 +4,7 @@ import { Collectable } from "../objects/Collectable.js";
 
 export class Game extends Phaser.Scene {
     constructor() {
-        super({
-            key: 'Game',
-            physics: {
-                default: 'arcade',  // Use arcade physics
-                arcade: {
-                    gravity: { y: 0 },  // Optional: Set gravity, adjust as needed
-                    debug: false         // Optional: Set to true if you want to see debug info
-                }
-            }
-        });
+        super('Game');
     }
 
     create() {

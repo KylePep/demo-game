@@ -2,10 +2,21 @@ export class Player {
   constructor(scene, x, y) {
     this.scene = scene;
 
-    this.player = this.scene.add.sprite(x, y, 'star')
+    this.scene.anims.create({
+      key: 'playerAnim',
+      frames: this.scene.anims.generateFrameNumbers('player', { start: 0, end: 14 }), // Adjust start and end frames
+      frameRate: 10, // Frames per second
+      repeat: -1 // Loop the animation indefinitely
+    });
+
+    this.player = this.scene.physics.add.sprite(x, y, 'star')
       .setDepth(50)
 
+    this.player.anims.play('playerAnim');
+
     this.scene.physics.world.enable(this.player);
+    this.player.body.setSize(10, 10);
+    this.player.body.setOffset(6, 12);
 
     // Setup keyboard input (A and D keys)
     this.keys = this.scene.input.keyboard.addKeys({
@@ -25,7 +36,25 @@ export class Player {
     // Get the game world's width for boundary checks
     this.worldWidth = this.scene.cameras.main.width;
 
+    // Setup physics collision detection
+    this.scene.physics.add.overlap(
+      this.player,
+      this.scene.coinsGroup, // Physics group for coins
+      this.collectItem,
+      null,
+      this
+    );
+
   }
+
+
+
+  collectItem(player, coin) {
+    console.log('Coin collected!');
+    this.scene.updateHealth();
+    coin.destroy(); // Remove coin from scene
+  }
+
 
   update() {
     // Move left
@@ -56,26 +85,30 @@ export class Player {
     }
 
     // Check for collisions with coins
-    this.scene.collectable.coins.forEach((coin) => {
-      if (this.checkCollision(this.player, coin.coin)) {
-        this.collectItem(coin);
-      }
+    // this.scene.collectable.coins.forEach((coin) => {
+    //   if (this.checkCollision(this.player, coin.coin)) {
+    //     this.collectItem(coin);
+    //   }
+    // });
+    this.scene.physics.world.overlap(this.player, this.scene.collectable.coins, (player, coin) => {
+      console.log('collision')
+      this.collectItem(coin);
     });
   }
 
-  checkCollision(player, coin) {
-    // Check for rectangle-to-rectangle collision
-    return Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), coin.getBounds());
-  }
+  // checkCollision(player, coin) {
+  //   // Check for rectangle-to-rectangle collision
+  //   return Phaser.Geom.Intersects.RectangleToRectangle(player.getBounds(), coin.getBounds());
+  // }
 
-  collectItem(coin) {
-    // Logic for when the player collects a coin
-    console.log('Coin collected!');
-    this.scene.updateHealth()
-    coin.coin.destroy(); // Remove the coin from the scene
-    const index = this.scene.collectable.coins.indexOf(coin);
-    if (index > -1) {
-      this.scene.collectable.coins.splice(index, 1); // Remove coin from the array
-    }
-  }
+  // collectItem(coin) {
+  //   // Logic for when the player collects a coin
+  //   console.log('Coin collected!');
+  //   this.scene.updateHealth()
+  //   coin.coin.destroy(); // Remove the coin from the scene
+  //   const index = this.scene.collectable.coins.indexOf(coin);
+  //   if (index > -1) {
+  //     this.scene.collectable.coins.splice(index, 1); // Remove coin from the array
+  //   }
+  // }
 }

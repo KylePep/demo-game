@@ -10,6 +10,9 @@ export class Coin {
       .setScale(1 / this.scale);
 
     this.scene.physics.world.enable(this.coin);
+    this.coin.body.setAllowGravity(false);  // Prevent gravity from affecting the coin
+    this.coin.body.setImmovable(false);  // Ensure the coin doesn't move on collision
+    this.coin.body.setSize(this.coin.width * 0.8, this.coin.height * 0.8);
   }
 
   update() {
